@@ -4,6 +4,7 @@
     align-items: center;
     height: 90px;
     padding: 0 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
   }
   
   .navbar-left {
@@ -29,6 +30,24 @@
     margin-right: 12px;
     margin-left: 12px;
     margin-top: 3px;
+}
+
+.nav-logo {
+  height: 100px;
+  width: 300px;
+}
+
+
+@media screen and (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
   }
+  .nav-logo {
+    height: 100px;
+    width: 300px;
+  }
+}
 
   

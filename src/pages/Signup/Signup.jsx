@@ -1,21 +1,53 @@
 import { useState } from 'react'
 import { useSignup } from '../../hooks/useSignup'
+import { useCollection } from '../../hooks/useCollection'
 //styles
 import './Signup.css';
 
 export default function Signup() {
+    const { documents, error:error2 } = useCollection('users');
     const [displayName, setDisplayName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [thumbnail, setThumbnail] = useState(null);
     const [thumbnailError, setThumbnailError] = useState(null);
     const { signup, isPending, error } = useSignup();
+    const [confirmPassword, setConfirmPassword] = useState('');
     const tags = ["Member"];
+    const friends = [];
     const comments = [];
+    const requests = [];
+
+    const checkUsername = (username) => { 
+        let flag = false;
+        if (documents) {
+            documents.map((doc) => {
+                if(doc.displayName === username) {
+                    flag = true;
+                }
+            })
+            return flag;
+        }
+    }
+    const confirmPasswords = (password) => {
+        if(password === confirmPassword) {
+            return true;
+        }
+        return false;
+    }
+
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        signup(email, password, displayName, thumbnail, tags, comments);
+        if(checkUsername(displayName)) {
+            setThumbnailError('Username already exists!');
+            return;
+        }
+        if(!confirmPasswords(password)) {
+            setThumbnailError('Passwords do not match!');
+            return;
+        }
+        signup(email, password, displayName, thumbnail, tags, comments, friends, requests);
     }
 
     const handleFileChange = (e) => {
@@ -68,6 +100,15 @@ export default function Signup() {
             onChange={e => setPassword(e.target.value)}
             />
         </label>
+        <label>
+            <span>Confirm Password:</span>
+            <input
+            required
+            type="password"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            />
+        </label>
 
         <label>
             <span>Profile Picture:</span>
@@ -81,6 +122,7 @@ export default function Signup() {
         {!isPending && <button className='btn'>Sign Up</button>}
         {isPending && <button className='btn-disabled' disabled>Loading...</button>} 
         {error && <div className='error'>{error}</div>}
+        {error2 && <div className='error'>{error2}</div>}
     </form>
   )
 }

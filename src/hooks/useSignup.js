@@ -8,7 +8,7 @@ export const useSignup = () => {
   const [isPending, setIsPending] = useState(false)
   const { dispatch } = useAuthContext()
 
-  const signup = async (email, password, displayName, thumbnail, tags, comments) => {
+  const signup = async (email, password, displayName, thumbnail, tags, comments, friends, requests) => {
     setError(null)
     setIsPending(true)
   
@@ -33,7 +33,9 @@ export const useSignup = () => {
         displayName,
         photoURL: imgUrl,
         tags,
-        comments
+        comments,
+        friends,
+        requests
       });
 
       // dispatch login action

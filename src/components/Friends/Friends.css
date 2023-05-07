@@ -1,0 +1,67 @@
+.friends-main {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: rgb(236, 236, 236);
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.friends-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #76a6ff;
+}
+
+.add-firend-inp {
+    display: flex;
+}
+
+.add-firend-inp button {
+    margin-left: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #76a6ff;
+    color: white;
+    padding: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 200px;
+}
+
+.add-firend-inp input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 700px) {
+    .friends-main {
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+.friends-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.friends-list h2 {
+    color: #76a6ff;
+}
