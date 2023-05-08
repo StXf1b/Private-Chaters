@@ -4,6 +4,7 @@ import { useFirestore } from '../../hooks/useFirestore'
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useDocument } from "../../hooks/useDocument";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Friends() {
     const { documents } = useCollection('users');
@@ -17,15 +18,15 @@ export default function Friends() {
         e.preventDefault();
         if(documents) {
             documents.map((doc) => {
-                // if(doc.displayName !== friend) {
-                //     setError('User does not exist!');
-                //     return;
-                // } REPAIR THIS!!!!!
                 if(doc.displayName === friend) {
                     if(doc.requests) {
                         if(doc.requests.includes(user.uid)) {
-                            alert('Request already sent!');
-                            return;
+                            setError('Request already sent!');
+                            return false;
+                        }
+                        if (doc.friends && doc.friends.includes(user.uid)) {
+                            setError('Already friends!');
+                            return false;
                         }
                         doc.requests.push(user.uid);
                     }
@@ -33,14 +34,45 @@ export default function Friends() {
                         doc.requests = [user.uid];
                     }
                     updateDocument(doc.id, doc);
-                    setSuccess('Request sent!');
                     setError(null);
-                    return;
+                    setSuccess('Request sent!');
+                }
+                else {
+                    if (success) {
+                        setError(null);
+                    }
+                    else {
+                        setError('User not found!');
+                    }
                 }
             })
         }
     setFriend('');
     }
+
+    const handleUnfriend = (user) => {
+        // remove the user from the friends array of the current user and the other user
+        return (e) => {
+            e.preventDefault();
+            if(document) {
+                if(document.friends) {
+                    document.friends = document.friends.filter((friend) => friend !== user);
+                }
+                updateDocument(document.id, document);
+            }
+            if(documents) {
+                documents.map((doc) => {
+                    if(doc.id === user) {
+                        if(doc.friends) {
+                            doc.friends = doc.friends.filter((friend) => friend !== document.id);
+                        }
+                        updateDocument(doc.id, doc);
+                    }
+                })
+            }
+        }
+    }
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -50,6 +82,28 @@ export default function Friends() {
         return () => clearTimeout(timer);
     }, [error, success])
 
+    const handleDecline = (user) => {
+        // remove the user from the requests array of the current user and the other user
+        return (e) => {
+            e.preventDefault();
+            if(document) {
+                if(document.requests) {
+                    document.requests = document.requests.filter((req) => req !== user);
+                }
+                updateDocument(document.id, document);
+            }
+            if(documents) {
+                documents.map((doc) => {
+                    if(doc.id === user) {
+                        if(doc.requests) {
+                            doc.requests = doc.requests.filter((req) => req !== document.id);
+                        }
+                        updateDocument(doc.id, doc);
+                    }
+                })
+            }
+        }
+    }
     const handleAccept = (user) => {
         // add the user to the friends array of the current user and the other user and remove the user from the requests array
         return (e) => {
@@ -83,10 +137,6 @@ export default function Friends() {
                 })
             }
         }
-
-        
-
-
     }
   return (
     <div className="friends-main">
@@ -104,7 +154,19 @@ export default function Friends() {
             { documents && documents.map((doc) => {
                 if(doc.requests) {
                     if(doc.requests.includes(user.uid)) {
-                        return <div className="friend">{doc.displayName}</div>
+                        return (
+                            <>
+                            <div className="requests-card">
+                                <div className="friend-avatar">
+                                    <Link to={`profile/${doc.id}`}><img src={doc.photoURL} alt="Avatar" /></Link>
+                                </div>
+                                <div className="friend" style={{"marginLeft": "30px"}} >{doc.displayName}</div>
+                                <div className="friend-btns">
+                                    <button className="btn-red" onClick={handleDecline(doc.id)}>Cancel</button>
+                                </div>
+                            </div>
+                            </>
+                        )
                     }
                 }
             })}
@@ -116,9 +178,15 @@ export default function Friends() {
                 return documents && documents.map((doc) => {
                     if(doc.id === req) {
                         return (
-                            <div className="requests">
-                                <div className="friend">{doc.displayName}</div>
-                                <button className="btn" onClick={handleAccept(doc.id)}>Accept</button>
+                            <div className="requests-card">
+                                <div className="friend-avatar">
+                                    <Link to={`profile/${doc.id}`}><img src={doc.photoURL} alt="Avatar" /></Link>
+                                </div>
+                                <div className="friend" style={{"marginLeft": "30px"}} >{doc.displayName}</div>
+                                <div className="friend-btns">
+                                    <button className="btn" style={{"marginRight": "10px"}} onClick={handleAccept(doc.id)}>Accept</button>
+                                    <button className="btn-red" onClick={handleDecline(doc.id)}>Decline</button>
+                                </div>
                             </div>
                         )
                     }
@@ -129,7 +197,17 @@ export default function Friends() {
             { document && document.friends && document.friends.map((friend) => {
                 return documents && documents.map((doc) => {
                     if(doc.id === friend) {
-                        return <div className="friend">{doc.displayName}</div>
+                        return (
+                            <div key={doc.id} className="friend-card">
+                                <div className="friend-avatar">
+                                    <Link to={`profile/${doc.id}`}><img src={doc.photoURL} alt="Avatar" /></Link>
+                                </div>
+                                <div className="friend-name" style={{"marginLeft": "30px"}}>{doc.displayName}</div>
+                                <div className="friend-btns">
+                                    <button className="btn" onClick={handleUnfriend(doc.id)}>Unfriend</button>
+                                </div>
+                            </div>
+                        )
                     }
                 })
             })}    
@@ -139,3 +217,8 @@ export default function Friends() {
     </div>
   )
 }
+
+
+// add delete friend functionality
+// add unfriend functionality
+// add cancel request functionality

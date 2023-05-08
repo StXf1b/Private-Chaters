@@ -53,6 +53,23 @@ a {
   color: #fff;
   background-color: var(--primary-color);
 }
+
+.btn-red {
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: #ff6464;
+  cursor: pointer;
+  font-size: 1em;
+  border: 1px solid #ff6464;
+  text-decoration: none;
+}
+.btn-red:hover {
+  color: #fff;
+  background-color: #ff6464;
+}
+
+
 .btn-disabled {
   color: #aaa;
   cursor: not-allowed;
