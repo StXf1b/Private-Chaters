@@ -43,6 +43,7 @@
     flex-direction: column;
     height: auto;
     padding: 20px;
+    font-size: 1rem;
   }
   .nav-logo {
     height: 100px;

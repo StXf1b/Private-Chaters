@@ -37,6 +37,7 @@ export default function Nav() {
       }
         {user ?
         <>
+
         <span className="navbar-username">{user.displayName}</span>
         <Link to={`/profile/${user.uid}`}>
         <img src={user.photoURL} alt="Profile" className="navbar-profile" />

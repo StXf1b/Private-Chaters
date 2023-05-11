@@ -12,6 +12,14 @@ import Profile from './pages/Profile/Profile';
 
 function App() {
   const { user, authIsReady } = useAuthContext();
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      console.log('Granted.');
+    }
+    else {
+      alert('To get notifications, please allow notifications in your browser settings.');
+    }
+  })
   return (
     <BrowserRouter>
     {!authIsReady && <div className='loading-page'>Loading...</div>}

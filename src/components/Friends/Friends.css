@@ -12,6 +12,7 @@
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 3;
 }
 
 .friends-title {
@@ -53,6 +54,7 @@
         margin-left: 5%;
         margin-right: 5%;
     }
+
 }
 
 .friends-list {
@@ -101,4 +103,31 @@
     justify-content: flex-end;
     align-items: center;
     width: 100%;
+}
+
+.filter-friends {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.friends-main hr {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #76a6ff;
+}
+
+@media screen and (max-width: 700px) {
+    .filter-friends {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .add-firend-inp button {
+        width: 30%;
+    }
+
 }

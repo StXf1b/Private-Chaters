@@ -1,0 +1,95 @@
+.main-profile {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 50px;
+}
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.profile-avatar img {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+.btn-add {
+    margin-top: -8%;
+    margin-left: 12%;
+}
+.btn-add button {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    border: none;
+    background: rgb(0,219,255);
+    background: linear-gradient(130deg, rgba(0,219,255,1) 0%, rgba(0,0,255,1) 100%);
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    opacity: 0.9;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transition: all 0.3s ease-in-out;
+}
+.btn-add button:hover {
+    opacity: 1;
+    transform: translate(0, -4px);
+}
+
+.edit-profile {
+    margin-left: 15px;
+    display: inline-block;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background: rgb(0,219,255);
+    background: linear-gradient(130deg, rgba(0,219,255,1) 0%, rgb(0, 89, 255) 100%);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    opacity: 0.9;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transition: all 0.3s ease-in-out;
+}
+.edit-profile:hover {
+    opacity: 1;
+}
+@media screen and (max-width: 700px) {
+    .main-profile {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .profile-left {
+        width: 100%;
+    }
+    .profile-right {
+        width: 100%;
+    }
+    .profile-avatar img {
+        width: 150px;
+        height: 150px;
+    }
+    .btn-add button {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        font-size: 2rem;
+        margin-top: -2px;
+    }
+}

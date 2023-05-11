@@ -13,6 +13,9 @@ export default function Friends() {
     const [friend, setFriend] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const [showBtn1, setShowBtn1] = useState(false);
+    const [showBtn2, setShowBtn2] = useState(true);
+    const [showBtn3, setShowBtn3] = useState(false);
     const { document } = useDocument('users', user.uid);
     const handleClick = (e) => {
         e.preventDefault();
@@ -138,6 +141,23 @@ export default function Friends() {
             }
         }
     }
+
+    const clickbtn1 = () => {
+        setShowBtn1(true);
+        setShowBtn2(false);
+        setShowBtn3(false);
+    }
+    const clickbtn2 = () => {
+        setShowBtn1(false);
+        setShowBtn2(true);
+        setShowBtn3(false);
+    }
+    const clickbtn3 = () => {
+        setShowBtn1(false);
+        setShowBtn2(false);
+        setShowBtn3(true);
+    }
+
   return (
     <div className="friends-main">
         <h1 className="friends-title">Friends</h1>
@@ -149,9 +169,17 @@ export default function Friends() {
             <button className="btn" onClick={handleClick}>Send Request</button>
         </div>
         <div className="friends-list">
-            <h2>Requests Sent</h2>
+            <div className="filter-friends">
+                { !showBtn1 && <button className="btn" onClick={clickbtn1}>Requests Sent</button>}
+                { showBtn1 && <button className="btn-red" onClick={clickbtn1}>Requests Sent</button>}
+                { !showBtn2 && <button className="btn" onClick={clickbtn2}>Friends</button>}
+                { showBtn2 && <button className="btn-red" onClick={clickbtn2}>Friends</button>}
+                { !showBtn3 && <button className="btn" onClick={clickbtn3}>Requests Pending</button>}
+                { showBtn3 && <button className="btn-red
+                " onClick={clickbtn3}>Requests Pending</button>}
+            </div>
             <hr/>
-            { documents && documents.map((doc) => {
+            { showBtn1 && documents && documents.map((doc) => {
                 if(doc.requests) {
                     if(doc.requests.includes(user.uid)) {
                         return (
@@ -170,9 +198,7 @@ export default function Friends() {
                     }
                 }
             })}
-            <h2>Requests To Accept</h2>
-            <hr/>
-            { document && document.requests && document.requests.map((req) => {
+            {showBtn3 && document && document.requests && document.requests.map((req) => {
                 // we get the use uid from the requests array and then we find the user displayname 
                 // from the documents array
                 return documents && documents.map((doc) => {
@@ -192,9 +218,7 @@ export default function Friends() {
                     }
                 })
             })}
-            <h2>Friends</h2>
-            <hr/>
-            { document && document.friends && document.friends.map((friend) => {
+            {showBtn2 && document && document.friends && document.friends.map((friend) => {
                 return documents && documents.map((doc) => {
                     if(doc.id === friend) {
                         return (
@@ -219,6 +243,4 @@ export default function Friends() {
 }
 
 
-// add delete friend functionality
-// add unfriend functionality
-// add cancel request functionality
+// push notification with firebase cloud messaging
